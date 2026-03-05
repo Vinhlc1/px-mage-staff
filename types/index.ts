@@ -119,6 +119,67 @@ export interface PurchaseOrderRequest {
   expectedDelivery: string;
 }
 
+// ─── Catalog / NFC / Commerce types ──────────────────────────────────────────
+
+export type CardProductStatus = "PENDING_BIND" | "READY" | "SOLD" | "LINKED" | "DEACTIVATED";
+export type CardCondition = "NEW" | "GOOD" | "DAMAGED";
+export type OrderStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "CANCELLED";
+export type PaymentStatus = "PENDING" | "PAID" | "FAILED" | "REFUNDED";
+
+export interface CardTemplate {
+  cardTemplateId: number;
+  name: string;
+  arcanaType: string;
+  suit?: string;
+  cardNumber?: number;
+  rarity: string;
+  active: boolean;
+  imagePath?: string;
+  description?: string;
+}
+
+export interface CardProduct {
+  cardProductId: number;
+  cardTemplateId: number;
+  template?: CardTemplate;
+  serialNumber?: string;
+  productionBatch?: string;
+  condition: CardCondition;
+  status: CardProductStatus;
+  nfcUid?: string;
+}
+
+export interface CardProductBindRequest {
+  nfcUid: string;
+}
+
+export interface CustomerOrderItem {
+  orderItemId: number;
+  productId?: number;
+  productName?: string;
+  quantity: number;
+  unitPrice: number;
+  subtotal: number;
+}
+
+export interface CustomerOrder {
+  orderId: number;
+  status: OrderStatus;
+  totalAmount: number;
+  paymentStatus: PaymentStatus;
+  shippingAddress?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt?: string;
+  customerName?: string;
+  customerEmail?: string;
+  orderItems?: CustomerOrderItem[];
+}
+
+export interface OrderStatusRequest {
+  status: OrderStatus;
+}
+
 export interface PurchaseOrderLineRequest {
   quantityOrdered: number;
   quantityReceived: number;

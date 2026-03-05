@@ -37,6 +37,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
 import type { PurchaseOrder, Supplier, Warehouse } from "@/types";
 
@@ -181,24 +182,34 @@ export function StaffPurchaseOrdersFeature({
       </Header>
 
       <Main>
-        {loading ? (
-          <p className="py-8 text-center text-muted-foreground">Loading…</p>
-        ) : (
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-16">ID</TableHead>
-                  <TableHead>PO Number</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Supplier</TableHead>
-                  <TableHead>Warehouse</TableHead>
-                  <TableHead>Order Date</TableHead>
-                  <TableHead>Expected</TableHead>
-                  <TableHead className="w-40 text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-16">ID</TableHead>
+                <TableHead>PO Number</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Supplier</TableHead>
+                <TableHead>Warehouse</TableHead>
+                <TableHead>Order Date</TableHead>
+                <TableHead>Expected</TableHead>
+                <TableHead className="w-40 text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            {loading ? (
               <TableBody>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <TableRow key={i}>
+                    {Array.from({ length: 8 }).map((__, j) => (
+                      <TableCell key={j}>
+                        <Skeleton className="h-4 w-full" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+            <TableBody>
                 {filteredItems.length === 0 ? (
                   <TableRow>
                     <TableCell
@@ -278,10 +289,10 @@ export function StaffPurchaseOrdersFeature({
                     </TableRow>
                   ))
                 )}
-              </TableBody>
-            </Table>
-          </div>
-        )}
+        </TableBody>
+            )}
+          </Table>
+        </div>
       </Main>
 
       {/* PO Detail Sheet */}

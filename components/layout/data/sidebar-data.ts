@@ -4,6 +4,8 @@ import {
   ClipboardCheck,
   Truck,
   Command,
+  Nfc,
+  ClipboardList,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
 
@@ -48,6 +50,26 @@ export const sidebarData: SidebarData = {
           title: 'Ready to Receive',
           url: '/staff/purchase-orders/approved',
           icon: Truck,
+        },
+      ],
+    },
+    {
+      title: 'NFC Binding',
+      items: [
+        {
+          title: 'Bind NFC',
+          url: '/staff/nfc',
+          icon: Nfc,
+        },
+      ],
+    },
+    {
+      title: 'Fulfilment',
+      items: [
+        {
+          title: 'Orders',
+          url: '/staff/orders',
+          icon: ClipboardList,
         },
       ],
     },

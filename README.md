@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PX Mage  Staff Portal
 
-## Getting Started
+Next.js 16 staff portal for PX Mage. Provides purchase-order management, NFC card binding, and customer order fulfilment.
 
-First, run the development server:
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) + React 19 |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS v4 |
+| Components | shadcn/ui |
+| Linter / Formatter | Biome 2 |
+| Package manager | pnpm |
+
+## Features
+
+| Feature | Route | Description |
+|---|---|---|
+| Dashboard | `/staff` | Live stats: cards pending bind, orders to fulfil |
+| All POs | `/staff/purchase-orders` | View, approve, reject, receive purchase orders |
+| Pending Approval | `/staff/purchase-orders/pending` | Filtered view  PENDING POs |
+| Ready to Receive | `/staff/purchase-orders/approved` | Filtered view  APPROVED POs |
+| NFC Binding | `/staff/nfc` | Bind NFC UIDs to card products |
+| Orders | `/staff/orders` | View customer orders and update status |
+
+## Proxy API Routes
+
+All routes in `app/api/` proxy to the backend at `http://localhost:8386/api`.
+
+| Method | Next.js Route | Backend Endpoint |
+|---|---|---|
+| POST | `/api/auth/login` | `POST /auth/login` |
+| GET | `/api/auth/me` | `GET /auth/me` |
+| POST | `/api/auth/logout` | `POST /auth/logout` |
+| GET | `/api/purchase-orders` | `GET /purchase-orders` |
+| GET | `/api/purchase-orders/[id]` | `GET /purchase-orders/{id}` |
+| PATCH | `/api/purchase-orders/[id]/approve` | `PATCH /purchase-orders/{id}/approve` |
+| PATCH | `/api/purchase-orders/[id]/reject` | `PATCH /purchase-orders/{id}/reject` |
+| PATCH | `/api/purchase-orders/[id]/receive` | `PATCH /purchase-orders/{id}/receive` |
+| GET | `/api/suppliers` | `GET /suppliers` |
+| GET | `/api/warehouses` | `GET /warehouses` |
+| GET | `/api/card-products` | `GET /card-products` |
+| PATCH | `/api/card-products/[id]/bind` | `PATCH /card-products/{id}/bind` |
+| GET | `/api/orders` | `GET /orders` |
+| GET | `/api/orders/[id]` | `GET /orders/{id}` |
+| PATCH | `/api/orders/[id]/status` | `PATCH /orders/{id}/status` |
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Linting
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm biome check --write .
+```
